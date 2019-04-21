@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "description": "Markdown Links project",
   "scripts": {
-    "test": "jest --coverage"},
+    "test": "jest --coverage"
+  },
   "dependencies": {
     "jest": "^24.7.1",
     "markdown-link-extractor": "^1.2.0"
   },
-  "author": "Fabiola Orellana"
+  "author": "Fabiola Orellana",
+  "bin": {
+    "md-links": "index.js"
+  }
 }
