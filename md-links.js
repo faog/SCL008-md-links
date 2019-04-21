@@ -1,6 +1,12 @@
 const fs = require('fs')
 
-fs.readFile(process.argv[2],'utf-8', (err, data) => { 
-    if (err) throw err;
-    console.log(data);
+const markdownLinkExtractor = require('markdown-link-extractor');
+
+let markdown = fs.readFileSync(process.argv[2]).toString();
+
+let links = markdownLinkExtractor(markdown);
+
+links.forEach(function (link) {
+    console.log(link);
 });
+
