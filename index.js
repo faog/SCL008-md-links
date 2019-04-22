@@ -2,11 +2,13 @@
 
 const mdLinks = require("./md-links");
 
-mdLinks.mdLinks(process.argv[2],false).then((links)=>{
+mdLinks.mdLinks(process.argv[2])
+.then((links)=>{
   links.forEach(function (link) {
     console.log(link);
-  });
-});
+  });  
+})
+.catch(console.error);
 /*
 mdLinks("./some/example.md", { validate: true })
   .then(links => {

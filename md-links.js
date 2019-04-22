@@ -1,7 +1,7 @@
 const fs = require('fs')
 const markdownLinkExtractor = require('markdown-link-extractor');
 
-const mdLinks = (path,options)=>{
+const mdLinks = (path)=>{
     return new Promise((resolve,reject)=>{
         try{
             let markdown = fs.readFileSync(path).toString();
