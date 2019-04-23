@@ -5,6 +5,8 @@ const mdLinks = require("./md-links");
 mdLinks.extractLinksFromFile(process.argv[2])
 .then((links)=>{
   links.forEach(function (link) {
+    /*Impresion de los links de acuerdo al formato solicitado, ademas que el texto no es superior a 
+    50 carácteres*/
     console.log(`${link.file} ${link.href} ${link.text.substring(0,50)}`);
   }); 
   
