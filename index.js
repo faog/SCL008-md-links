@@ -2,11 +2,12 @@
 
 const mdLinks = require("./md-links");
 
-mdLinks.mdLinks(process.argv[2])
+mdLinks.extractLinksFromFile(process.argv[2])
 .then((links)=>{
   links.forEach(function (link) {
-    console.log(link);
-  });  
+    console.log(`${link.file} ${link.href} ${link.text.substring(0,50)}`);
+  }); 
+  
 })
 .catch(console.error);
 /*
