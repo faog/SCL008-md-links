@@ -1,9 +1,13 @@
-const fs = require('fs')
+const fs = require('fs');
+const nodepath = require('path');
 const marked = require('marked');
 
 const extractLinksFromFile = (path)=>{
     return new Promise((resolve,reject)=>{
         try{
+            if(nodepath.extname(path)!=".md"){
+                throw(new Error("Extensión no válida"));
+            }
             let links=[];
             let markdown = fs.readFileSync(path).toString();          
             const renderer = new marked.Renderer();
