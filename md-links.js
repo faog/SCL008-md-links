@@ -1,10 +1,13 @@
 /*Uso de librerias de node.js*/
-//Filesystem
+//filesystem
 const fs = require('fs');
-
+//path
 const nodepath = require('path');
+//marked
 const marked = require('marked');
-
+//fetch
+const fetch = require('fetch');
+const fetchUrl = fetch.fetchUrl;
 
 /*
 1) Función extractLinksFromFile que permite extraer los links de un archivo .md
@@ -14,7 +17,6 @@ PASOS:
 - Se ejecuta la conversión indicando que en vez del renderer que viene por omisión 
 que convierte todo a HTML), se usará el renderer anteriormente creado que ingresó los links en el arreglo. 
 Esto está dado por la opción {renderer:renderer}
-
 */
 const extractLinksFromFile = (path)=>{
     return new Promise((resolve,reject)=>{
@@ -42,6 +44,27 @@ const extractLinksFromFile = (path)=>{
     })
 }
 
-module.exports={
-    extractLinksFromFile
+/*
+2) Función validateLink que permite extraer los links de un archivo .md
+PASOS: 
+
+*/
+const validateLink = (url)=>{ 
+    return new Promise ((reject, resolve)=>{
+        fetchUrl(url, function(error, meta, body){
+            if(meta){
+                if(meta.status == 200){
+                    resolve(meta.status.toString());
+                }else{
+                    reject(error);
+                }
+            }
+        })
+    })
 }
+
+module.exports={
+    extractLinksFromFile,
+    validateLink    
+}
+
