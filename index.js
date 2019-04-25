@@ -7,7 +7,7 @@ mdLinks.extractLinksFromFile(process.argv[2])
     res.forEach(function (link) {
     /*Impresion de los links de acuerdo al formato solicitado, ademas que el texto no es superior a 
     50 carácteres*/
-    console.log(`${link.file} ${link.href} ${link.text.substring(0,50)}`);
+    console.log(`${link.file} ${link.href} ${link.text.substring(0,50)}  ${link.status}`);
     }); 
   })
   .catch(console.error);

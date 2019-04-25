@@ -35,7 +35,12 @@ const extractLinksFromFile = (path)=>{
                 });
             };
             marked(markdown,{renderer:renderer});
-            resolve(links);
+            let linkPromises = [];
+            let status = [];
+            links.forEach((element) => {
+                linkPromises.push(validateLink(element.href));
+            });
+            Promise.all(linkPromises).then(resolve(links)).catch((error)=>{reject(error);});
         }
         catch(error){
             reject(error);
@@ -43,7 +48,6 @@ const extractLinksFromFile = (path)=>{
         
     })
 }
-
 /*
 2) Función validateLink que permite extraer los links de un archivo .md
 PASOS: 
