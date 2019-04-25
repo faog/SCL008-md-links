@@ -37,11 +37,13 @@ const extractLinksFromFile = (path)=>{
             marked(markdown,{renderer:renderer});
             let linkPromises = [];
             let status = [];
-            links.forEach((element) => {
+            links.forEach((element) => {                
                 linkPromises.push(validateLink(element.href));
-            });
-            Promise.all(linkPromises).then(resolve(links)).catch((error)=>{reject(error);});
-        }
+            });                       
+            Promise.all(linkPromises)
+            .then(resolve(links))
+            .catch((error)=>{reject(error);});
+        }        
         catch(error){
             reject(error);
         }
@@ -56,8 +58,9 @@ PASOS:
 const validateLink = (url)=>{ 
     return new Promise ((reject, resolve)=>{
         fetchUrl(url, function(error, meta, body){
+            console.log(meta.finalUrl +' ' + meta.status ) ;
             if(meta){
-                if(meta.status == 200){
+                if(meta.status == 200){                    
                     resolve(meta.status.toString());
                 }else{
                     reject(error);
