@@ -11,10 +11,9 @@ describe('mdLinks', () => {
   it('Debería retornar error para el archivo prueba2.md', async()  => {
     await expect(mdLinks.mdLinks('./prueba2.md')).rejects.toThrow("ENOENT: no such file or directory, open './prueba2.md'");
   });
- */
+  */
   it('Debería retornar "Extension no válida" para el archivo text.txt', async()  => {
     await expect(mdLinks.mdLinks('./text.txt')).rejects.toThrow("Extensión no válida");
   });
-
 });
 
