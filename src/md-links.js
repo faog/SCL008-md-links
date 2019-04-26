@@ -2,11 +2,19 @@
 const fs = require('fs');
 const nodepath = require('path');
 const marked = require('marked');
+const fetch = require('node-fetch');
 
 const mdLinks = (path,option) => {
+    if(option && option.validate){
+        return new Promise((resolve,reject)=>{
+            extractLinksFromFile(path).then((links)=>{
+                resolve(validate(links));
+            });
+        })
+    }
+    else{
         return extractLinksFromFile(path);
-
-
+    }
 }
 
 /*
@@ -46,6 +54,21 @@ const extractLinksFromFile = (path)=>{
         }
         
     })
+}
+
+const validate = (links)=>{
+    return Promise.all(links.map(link=>{
+        return new Promise((resolve,reject)=>{
+            fetch(link.href)
+                .then(res=>{
+                    link.status = res.status;
+                    link.statusText = res.statusText;
+                    resolve(link);
+                })
+                .catch((err)=>                    
+                    reject(err))
+        });
+    }))
 }
 
 module.exports={
