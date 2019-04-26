@@ -4,7 +4,7 @@ const nodepath = require('path');
 const marked = require('marked');
 
 const mdLinks = (path,option) => {
-        return extractLinksFromFile(path);
+    return extractLinksFromFile(path);
 }
 
 /*
