@@ -4,7 +4,9 @@ const nodepath = require('path');
 const marked = require('marked');
 
 const mdLinks = (path,option) => {
-    return extractLinksFromFile(path);
+        return extractLinksFromFile(path);
+
+
 }
 
 /*
@@ -24,7 +26,6 @@ const extractLinksFromFile = (path)=>{
             }
             fs.readFile(path,'utf-8',(err, content)=>{
                 if(err){
-                    console.log("Error:"+err);
                     reject(err);
                 }
                 let links=[];
@@ -33,16 +34,17 @@ const extractLinksFromFile = (path)=>{
                     links.push({
                         href:href,
                         text: text,
-                        link: path
-                    });
-                };
+                        file: path
+                    })
+                }
                 marked(content,{renderer:renderer});
                 resolve(links);
             })  
         }
         catch(error){
             reject(error);
-        }        
+        }
+        
     })
 }
 

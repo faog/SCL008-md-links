@@ -11,7 +11,9 @@ mdLinks.mdLinks(process.argv[2])
   }); 
   
 })
-.catch(console.error);
+.catch((err)=>{
+  console.log(err);
+});
 /*
 mdLinks("./some/example.md", { validate: true })
   .then(links => {
