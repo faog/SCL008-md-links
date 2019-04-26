@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const mdLinks = require("./md-links");
+const mdLinks = require("./src/md-links");
 
 mdLinks.extractLinksFromFile(process.argv[2])
 .then((links)=>{
