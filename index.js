@@ -2,7 +2,7 @@
 
 const mdLinks = require("./src/md-links");
 
-mdLinks.extractLinksFromFile(process.argv[2])
+mdLinks.mdLinks(process.argv[2])
 .then((links)=>{
   links.forEach(function (link) {
     /*Impresion de los links de acuerdo al formato solicitado, ademas que el texto no es superior a 
@@ -11,7 +11,9 @@ mdLinks.extractLinksFromFile(process.argv[2])
   }); 
   
 })
-.catch(console.error);
+.catch((err)=>{
+  console.log(err);
+});
 /*
 mdLinks("./some/example.md", { validate: true })
   .then(links => {

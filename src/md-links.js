@@ -3,6 +3,12 @@ const fs = require('fs');
 const nodepath = require('path');
 const marked = require('marked');
 
+const mdLinks = (path,option) => {
+        return extractLinksFromFile(path);
+
+
+}
+
 /*
 1) Función extractLinksFromFile que permite extraer los links de un archivo .md
 PASOS: 
@@ -18,18 +24,22 @@ const extractLinksFromFile = (path)=>{
             if(nodepath.extname(path)!=".md"){
                 throw(new Error("Extensión no válida"));
             }
-            let links=[];
-            let markdown = fs.readFileSync(path).toString();    
-            const renderer = new marked.Renderer();
-            renderer.link = function(href, title, text) {
-                links.push({
-                    href: href,
-                    text: text,                  
-                    file:path
-                });
-            };
-            marked(markdown,{renderer:renderer});
-            resolve(links);
+            fs.readFile(path,'utf-8',(err, content)=>{
+                if(err){
+                    reject(err);
+                }
+                let links=[];
+                const renderer = new marked.Renderer();
+                renderer.link = function(href, title, text){
+                    links.push({
+                        href:href,
+                        text: text,
+                        file: path
+                    })
+                }
+                marked(content,{renderer:renderer});
+                resolve(links);
+            })  
         }
         catch(error){
             reject(error);
@@ -39,5 +49,5 @@ const extractLinksFromFile = (path)=>{
 }
 
 module.exports={
-    extractLinksFromFile
+    mdLinks
 }
