@@ -33,6 +33,12 @@ describe('mdLinks', () => {
     [{href:'https://es.wikipedia.org/wiki/Markdown'},{href: 'https://nodejs.org/'}]))
     .toEqual({"linksTotal": 2, "linksUnique": 2});
   });
+
+  it('Debería retornar la estadística linksTotal:2, linksUnique:2 y linksBroken para el archivo prueba.md',()=>{
+    expect(mdLinks.statsLinks(
+    [{href:'https://es.wikipedia.org/wiki/Markdown',status:200 },{href: 'https://nodejs.org/', status:200}],{validate:true}))
+    .toEqual({linksTotal: 2, linksUnique: 2, linksBroken:0 });
+  });
   
 });
 
