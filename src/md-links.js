@@ -106,6 +106,6 @@ const statsLinks = (links)=>{
 
 module.exports={
     mdLinks,
-    validateLink,
+    validateLink, 
     statsLinks
 }
