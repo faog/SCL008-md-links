@@ -10,8 +10,16 @@ if(process.argv[3]==="--validate"){
     }); 
   })
   .catch(console.error);
-}
-else {
+}else if(process.argv[3]==="--stats"){
+  mdLinks.mdLinks(process.argv[2])
+  .then((links) => {
+    let responseStats=mdLinks.statsLinks(links);
+    console.log(`Total: ${responseStats.linksTotal}`);
+    console.log(`Unique: ${responseStats.linksUnique}`);
+  })
+  .catch(console.error);
+
+}else {
   mdLinks.mdLinks(process.argv[2])
   .then((links) => {
     links.forEach(function (link) {   
