@@ -19,14 +19,19 @@ describe('mdLinks', () => {
   it('Debería retornar 2 links para el archivo prueba.md validando su status y statusText', async () => {
     await expect(mdLinks.mdLinks('./prueba.md',{validate:true})).resolves.toEqual(
     [{href:'https://es.wikipedia.org/wiki/Markdown', text:'Markdown', file:'./prueba.md',status:200,statusText:'OK' },
-    {href: 'https://nodejs.org/', text:'Node.js', file:'./prueba.md',status:200,statusText:'OK'}]);
+    {href: 'https://nodejs.org/', text:'Node.js', file:'./prueba.md', status:200, statusText:'OK'}]);
   });
 
   it('Debería retornar un error al chequear un link no válido', async()=>{
     await expect(mdLinks.validateLink([{href:'https://esfffffff.wikipedia.org/wiki/Markdown', 
     text:'Markdown', file:'./prueba.md'}])).resolves.toEqual([{href:'https://esfffffff.wikipedia.org/wiki/Markdown', 
-    text:'Markdown', file:'./prueba.md',status:0, 
-    statusText:"ENOTFOUND" }]);
+    text:'Markdown', file:'./prueba.md', status:0, statusText:"ENOTFOUND" }]);
+  });
+
+  it('Debería retornar la estadística linksTotal:2 y linksUnique:2 para el archivo prueba.md',()=>{
+    expect(mdLinks.statsLinks(
+    [{href:'https://es.wikipedia.org/wiki/Markdown'},{href: 'https://nodejs.org/'}]))
+    .toEqual({"linksTotal": 2, "linksUnique": 2});
   });
   
 });
