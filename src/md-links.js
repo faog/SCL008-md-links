@@ -87,7 +87,11 @@ const validateLink = (links)=>{
 /*3)Función statsLinks que permite realizar el calculo de estadística de un archivo*/
 
 const statsLinks = (links)=>{
-    
+    return Promise.all(links.map(link=>{
+        return new Promise((resolve,reject)=>{
+            
+        });
+    }))
 }
 
 module.exports={
