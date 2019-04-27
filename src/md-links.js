@@ -38,19 +38,21 @@ const extractLinksFromFile = (path)=>{
             }
             fs.readFile(path,'utf-8',(err, content)=>{
                 if(err){
-                    reject(err);
+                    reject(err.code);
                 }
-                let links=[];
-                const renderer = new marked.Renderer();
-                renderer.link = function(href, title, text){
-                    links.push({
-                        href:href,
-                        text: text,
-                        file: path
-                    })
+                else{
+                    let links=[];
+                    const renderer = new marked.Renderer();
+                    renderer.link = function(href, title, text){
+                        links.push({
+                            href:href,
+                            text: text,
+                            file: path
+                        })
+                    }
+                    marked(content,{renderer:renderer});
+                    resolve(links);
                 }
-                marked(content,{renderer:renderer});
-                resolve(links);
             })  
         }
         catch(error){
@@ -78,8 +80,11 @@ const validateLink = (links)=>{
                     link.statusText = res.statusText;
                     resolve(link);
                 })
-                .catch((err)=>                    
-                    reject(err))
+                .catch((err)=> {
+                    link.status=0;
+                    link.statusText=err.code;
+                    resolve(link);
+                })                    
         });
     }))
 }
@@ -95,5 +100,6 @@ const statsLinks = (links)=>{
 }
 
 module.exports={
-    mdLinks
+    mdLinks,
+    validateLink
 }
