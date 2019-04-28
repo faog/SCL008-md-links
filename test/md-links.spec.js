@@ -2,21 +2,21 @@ const mdLinks = require("../src/md-links");
 
 describe('mdLinks', () => {
 
-  it('Debería retornar 2 links para el archivo prueba.md', async() => {    
+  it('Debería retornar 2 links cuando se quiera leer el archivo prueba.md', async() => {    
     await expect(mdLinks.mdLinks('./prueba.md')).resolves.toEqual(
       [{href:'https://es.wikipedia.org/wiki/Markdown', text:'Markdown', file:'./prueba.md' },
       {href: 'https://nodejs.org/', text:'Node.js', file:'./prueba.md'}]);
   });
   
-  it('Debería retornar error para el archivo prueba2.md', async()  => {
+  it('Debería retornar error ENOENT, si se intenta leer un archivo que no existe (prueba2.md)', async()  => {
     await expect(mdLinks.mdLinks('./prueba2.md')).rejects.toEqual("ENOENT");
   });
 
-  it('Debería retornar "Extension no válida" para el archivo text.txt', async()  => {
+  it('Debería retornar "Extensión no válida" para el archivo text.txt', async()  => {
     await expect(mdLinks.mdLinks('./text.txt')).rejects.toThrow("Extensión no válida");
   });
 
-  it('Debería retornar 2 links para el archivo prueba.md validando su status y statusText', async () => {
+  it('Debería retornar 2 links para el archivo prueba.md, validando su status y statusText', async () => {
     await expect(mdLinks.mdLinks('./prueba.md',{validate:true})).resolves.toEqual(
     [{href:'https://es.wikipedia.org/wiki/Markdown', text:'Markdown', file:'./prueba.md',status:200,statusText:'OK' },
     {href: 'https://nodejs.org/', text:'Node.js', file:'./prueba.md', status:200, statusText:'OK'}]);
@@ -40,7 +40,7 @@ describe('mdLinks', () => {
     .toEqual({linksTotal: 2, linksUnique: 2, linksBroken:0 });
   });
 
-  it('Deberia retornar 3 links para los archivos en la carpeta ./carpeta_md', async()=>{
+  it('Deberia retornar 3 links para los archivos en el directorio .\\carpeta_md', async()=>{
     await expect(mdLinks.mdLinks('.\\carpeta_md')).resolves.toEqual([
       [{href:'https://es.wikipedia.org/wiki/Markdown', text:'Markdown', file:'carpeta_md\\prueba1.md' }],
       [{href:'https://nodejs.org/', text:'Node.js', file:'carpeta_md\\prueba2.md' }],
@@ -48,12 +48,16 @@ describe('mdLinks', () => {
     )
   })
 
-  it('Debería retornar 3 links para los archivos de la carpeta ./carpeta_md, validando su status y statusText', async () => {
+  it('Debería retornar 3 links para los archivos del directorio .\\carpeta_md, validando su status y statusText', async () => {
     await expect(mdLinks.mdLinks('.\\carpeta_md',{validate:true})).resolves.toEqual([
       [{href:'https://es.wikipedia.org/wiki/Markdown', text:'Markdown', file:'carpeta_md\\prueba1.md', status:200, statusText:'OK'}],
       [{href:'https://nodejs.org/', text:'Node.js', file:'carpeta_md\\prueba2.md', status:200, statusText:'OK' }],
       [{href:'https://nodejs.org/', text:'Node.js', file:'carpeta_md\\prueba3.md', status:200, statusText:'OK' }]
     ]);
-  });  
+  })
+  
+  it('Debería retornar un error si el usuario no ingresa un directorio o archivo', async()  => {
+    await expect(mdLinks.mdLinks()).rejects.toThrow("The \"path\" argument must be of type string. Received type undefined");
+  });
 });
 
