@@ -13,16 +13,15 @@ const mdLinks = (path,options) => {
         return new Promise((resolve,reject)=>{
             extractMDFromDirectory(path)
                 .then((paths)=>{
-                Promise.all(paths.map((pathInFolder)=>{
-                    return extractLinksFromFile(pathInFolder);
+                Promise.all(paths.map((pathInFolder)=>{                    
+                    return extractLinksFromFile(pathInFolder);                    
                 })).then((linksInFolder)=>{
-                    Promise.all(linksInFolder.map((linkInFolder)=>{
+                    Promise.all(linksInFolder.map((linkInFolder)=>{                        
                         return validateLink(linkInFolder);
                     })).then((validateLinks)=>{
                         resolve(validateLinks);
                     })
-                });
-                    
+                });                    
                 }).catch(()=>{
                     extractLinksFromFile(path).then((links)=>{
                         resolve(validateLink(links));    
@@ -154,6 +153,5 @@ const extractMDFromDirectory=(path)=>{
 module.exports={
     mdLinks,
     validateLink, 
-    statsLinks 
-    
+    statsLinks    
 }
