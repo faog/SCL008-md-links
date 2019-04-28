@@ -11,8 +11,22 @@ const fileHound = require('filehound');
 const mdLinks = (path,options) => {
     if(options && options.validate){
         return new Promise((resolve,reject)=>{
-            extractLinksFromFile(path).then((links)=>{
-                resolve(validateLink(links));
+            extractMDFromDirectory(path)
+                .then((paths)=>{
+                Promise.all(paths.map((pathInFolder)=>{
+                    return extractLinksFromFile(pathInFolder);
+                })).then((linksInFolder)=>{
+                    Promise.all(linksInFolder.map((linkInFolder)=>{
+                        return validateLink(linkInFolder);
+                    })).then((validateLinks)=>{
+                        resolve(validateLinks);
+                    })
+                });
+                    
+                }).catch(()=>{
+                    extractLinksFromFile(path).then((links)=>{
+                        resolve(validateLink(links));    
+                })
             });
         })
     }
@@ -32,8 +46,7 @@ const mdLinks = (path,options) => {
 }
 
 /*
-1) Función extractLinksFromFile que permite extraer los links de un archivo .md
-PASOS: 
+1) Función extractLinksFromFile que permite extraer los links de un archivo .md:
 - Se lee el contenido del archivo con nombre "path" y se guarda como String en la variable markdown
 - Se valida que la extensión del archivo sea .md
 - El renderer que se crea en vez de convertir los links a html, va a ejecutar lo que sigue cada vez que encuentre un link
@@ -73,35 +86,32 @@ const extractLinksFromFile = (path)=>{
 }
 
 /*
-2) Función validateLink que permite agregar el status a los links encontrados en un archivo
-PASOS: 
+2) Función validateLink que permite agregar el status a los links encontrados en un archivo:
 - Se retorna una Promise.all() donde al arreglo de links se le aplica un map, para que posteriormente
 a cada elemento encontrado se le agregue el status y textstatus.
 - Se crea una nueva promesa, que al usar fetch puedo ir agregando a cada link su status y textStatus
 */
 
 const validateLink = (links)=>{
-    return Promise.all(links.map(link=>{
-        console.log(links);
+    return Promise.all(links.map(linkToValidate=>{
         return new Promise((resolve,reject)=>{
-            fetch(link.href)
+            fetch(linkToValidate.href)
                 .then(res=>{
-                    link.status = res.status;
-                    link.statusText = res.statusText;
-                    resolve(link);
+                    linkToValidate.status = res.status;
+                    linkToValidate.statusText = res.statusText;
+                    resolve(linkToValidate);
                 })
                 .catch((err)=> {
-                    link.status=0;
-                    link.statusText=err.code;
-                    resolve(link);
+                    linkToValidate.status=0;
+                    linkToValidate.statusText=err.code;
+                    resolve(linkToValidate);
                 })                    
         });
     }))
 }
 
 /*
-3)Función statsLinks que permite realizar el calculo de estadística de un archivo
-PASOS:
+3)Función statsLinks que permite realizar el calculo de estadística de un archivo:
 **************** 3.1) CASO --stats*******************
 - Sus parámetros son el arreglo de links, y la opción --validate
 - Usando map(), se obtiene el href del arreglo links, guardando esta información en el arreglo hrefLink 
@@ -134,7 +144,6 @@ const statsLinks = (links, options)=>{
 }
 
 /*4)Función extractMDFromDirectory que permite obtener los archivos .md de un directorio*/
-
 const extractMDFromDirectory=(path)=>{
     return fileHound.create()
     .paths(path)
