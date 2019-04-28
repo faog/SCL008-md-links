@@ -82,6 +82,7 @@ a cada elemento encontrado se le agregue el status y textstatus.
 
 const validateLink = (links)=>{
     return Promise.all(links.map(link=>{
+        console.log(links);
         return new Promise((resolve,reject)=>{
             fetch(link.href)
                 .then(res=>{
