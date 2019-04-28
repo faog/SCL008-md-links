@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 const mdLinks = require("./src/md-links");
 
 if((process.argv[3]==="--validate" && process.argv[4]==="--stats") || 
@@ -30,10 +29,10 @@ else if(process.argv[3]==="--validate"){
     })
     .catch(console.error);
 
-
 }else {
   mdLinks.mdLinks(process.argv[2])
     .then((links) => {
+      links=links.flat();
       links.forEach(function (link) {   
         console.log(`${link.file} ${link.href} ${link.text.substring(0,50)}`);
       }); 
@@ -41,17 +40,5 @@ else if(process.argv[3]==="--validate"){
     .catch(console.error);
 }
 
-/*
-mdLinks("./some/example.md", { validate: true })
-  .then(links => {
-    // => [{ href, text, file, status, ok }]
-  })
-  .catch(console.error);
 
-mdLinks("./some/dir")
-  .then(links => {
-    // => [{ href, text, file }]
-  })
-  .catch(console.error);
-*/
 
