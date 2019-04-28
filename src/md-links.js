@@ -13,33 +13,38 @@ const mdLinks = (path,options) => {
         return new Promise((resolve,reject)=>{
             extractMDFromDirectory(path)
                 .then((paths)=>{
-                Promise.all(paths.map((pathInFolder)=>{                    
-                    return extractLinksFromFile(pathInFolder);                    
-                })).then((linksInFolder)=>{
-                    Promise.all(linksInFolder.map((linkInFolder)=>{                        
-                        return validateLink(linkInFolder);
-                    })).then((validateLinks)=>{
-                        resolve(validateLinks);
-                    })
-                });                    
-                }).catch(()=>{
-                    extractLinksFromFile(path).then((links)=>{
-                        resolve(validateLink(links));    
+                    Promise.all(paths.map((pathInFolder)=>{                    
+                        return extractLinksFromFile(pathInFolder);                    
+                    })).then((linksInFolder)=>{
+                        Promise.all(linksInFolder.map((linkInFolder)=>{                        
+                            return validateLink(linkInFolder);
+                        })).then((validateLinks)=>{
+                            resolve(validateLinks);
+                        })
+                    });                    
+                    }).catch(()=>{
+                        extractLinksFromFile(path)
+                        .then((links)=>{
+                            resolve(validateLink(links)); 
                 })
-            });
+            })
         })
     }
     else{
         return new Promise((resolve, reject)=>{
-            extractMDFromDirectory(path)
+            try{
+                extractMDFromDirectory(path)
                 .then(res=>{
                     resolve(Promise.all(res.map(file=>{
                         return extractLinksFromFile(file); 
                     })))
                 })
-                .catch(()=>{
+                .catch(()=>{                   
                     resolve(extractLinksFromFile(path));
                 })
+            }catch(err){
+                reject(err);
+            }           
         })
     }
 }
@@ -93,7 +98,7 @@ a cada elemento encontrado se le agregue el status y textstatus.
 
 const validateLink = (links)=>{
     return Promise.all(links.map(linkToValidate=>{
-        return new Promise((resolve,reject)=>{
+        return new Promise((resolve)=>{
             fetch(linkToValidate.href)
                 .then(res=>{
                     linkToValidate.status = res.status;
