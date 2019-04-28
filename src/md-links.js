@@ -3,6 +3,8 @@ const fs = require('fs');
 const nodepath = require('path');
 const marked = require('marked');
 const fetch = require('node-fetch');
+const fileHound = require('filehound');
+
 
 /*Función mdLinks 
 - Permite la conexión entre las funciones construidas
@@ -16,7 +18,19 @@ const mdLinks = (path,options) => {
         })
     }
     else{
-        return extractLinksFromFile(path);
+        return new Promise((resolve, reject)=>{
+            const files = fileHound.create()
+            .paths(path)
+            .ext('md')
+            .find();
+            files.then(res=>{
+                resolve(Promise.all(res.map(file=>{
+                    return extractLinksFromFile(file); 
+                })))
+            })
+        })
+        //return extractLinksFromFile(path);
+
     }
 }
 
@@ -121,8 +135,18 @@ const statsLinks = (links, options)=>{
     return responseStats;
 }
 
+/*4)Función extractLinksFromFileFromDirectory que permite obtener los archivos .md de un directorio*/
+
+/*const files = FileHound.create()
+  .paths('/Users/Fabiola/Desktop/SCL008-md-links/prueba.md')
+  .ext('md')
+  .find();
+  
+files.then(console.log); */
+
 module.exports={
     mdLinks,
     validateLink, 
-    statsLinks
+    statsLinks 
+    
 }
