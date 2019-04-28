@@ -5,7 +5,6 @@ const marked = require('marked');
 const fetch = require('node-fetch');
 const fileHound = require('filehound');
 
-
 /*Función mdLinks 
 - Permite la conexión entre las funciones construidas
 - Permite la interacción entre index.js y md-links.js*/
@@ -19,18 +18,16 @@ const mdLinks = (path,options) => {
     }
     else{
         return new Promise((resolve, reject)=>{
-            const files = fileHound.create()
-            .paths(path)
-            .ext('md')
-            .find();
-            files.then(res=>{
-                resolve(Promise.all(res.map(file=>{
-                    return extractLinksFromFile(file); 
-                })))
-            })
+            extractMDFromDirectory(path)
+                .then(res=>{
+                    resolve(Promise.all(res.map(file=>{
+                        return extractLinksFromFile(file); 
+                    })))
+                })
+                .catch(()=>{
+                    resolve(extractLinksFromFile(path));
+                })
         })
-        //return extractLinksFromFile(path);
-
     }
 }
 
@@ -135,14 +132,14 @@ const statsLinks = (links, options)=>{
     return responseStats;
 }
 
-/*4)Función extractLinksFromFileFromDirectory que permite obtener los archivos .md de un directorio*/
+/*4)Función extractMDFromDirectory que permite obtener los archivos .md de un directorio*/
 
-/*const files = FileHound.create()
-  .paths('/Users/Fabiola/Desktop/SCL008-md-links/prueba.md')
-  .ext('md')
-  .find();
-  
-files.then(console.log); */
+const extractMDFromDirectory=(path)=>{
+    return fileHound.create()
+    .paths(path)
+    .ext('md')
+    .find();
+}
 
 module.exports={
     mdLinks,
