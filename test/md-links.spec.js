@@ -39,6 +39,21 @@ describe('mdLinks', () => {
     [{href:'https://es.wikipedia.org/wiki/Markdown',status:200 },{href: 'https://nodejs.org/', status:200}],{validate:true}))
     .toEqual({linksTotal: 2, linksUnique: 2, linksBroken:0 });
   });
-  
+
+  it('Deberia retornar 3 links para los archivos en la carpeta ./carpeta_md', async()=>{
+    await expect(mdLinks.mdLinks('.\\carpeta_md')).resolves.toEqual([
+      [{href:'https://es.wikipedia.org/wiki/Markdown', text:'Markdown', file:'carpeta_md\\prueba1.md' }],
+      [{href:'https://nodejs.org/', text:'Node.js', file:'carpeta_md\\prueba2.md' }],
+      [{href:'https://nodejs.org/', text:'Node.js', file:'carpeta_md\\prueba3.md' }]]
+    )
+  })
+
+  it('Debería retornar 3 links para los archivos de la carpeta ./carpeta_md, validando su status y statusText', async () => {
+    await expect(mdLinks.mdLinks('.\\carpeta_md',{validate:true})).resolves.toEqual([
+      [{href:'https://es.wikipedia.org/wiki/Markdown', text:'Markdown', file:'carpeta_md\\prueba1.md', status:200, statusText:'OK'}],
+      [{href:'https://nodejs.org/', text:'Node.js', file:'carpeta_md\\prueba2.md', status:200, statusText:'OK' }],
+      [{href:'https://nodejs.org/', text:'Node.js', file:'carpeta_md\\prueba3.md', status:200, statusText:'OK' }]
+    ]);
+  });  
 });
 
