@@ -128,6 +128,7 @@ en el arreglo hrefSet.
 - Si el usuario ingresa la opción --validate, podra obtener los links rotos encontrados.
 - Se usa filter para los links que devuelvan un status igual a 0 o mayor e igual a 400.
 - Se retorna el objeto responseStats con linksTotal, linksUnique y linksBroken
+- Además, se implementa la cantidad de links por respuesta HTTP.
 */
 
 const statsLinks = (links, options)=>{
@@ -140,9 +141,11 @@ const statsLinks = (links, options)=>{
     let hrefSet= new Set(hrefLink);
     responseStats.linksUnique=hrefSet.size;
     if(options && options.validate){
-        responseStats.linksBroken = links.filter(link=>{
+        responseStats.linksBroken = links.filter(link=>{            
             return link.status===0 || link.status>=400;
         }).length;
+        responseStatusCodesHTTP(responseStats, links);
+        
     }
     return responseStats;
 }
@@ -155,8 +158,29 @@ const extractMDFromDirectory=(path)=>{
     .find();
 }
 
+const responseStatusCodesHTTP =(responseStats, links) =>{
+    responseStats.informationResponses = links.filter(link=>{
+        return link.status>=100 && link.status<=199;
+    }).length;
+    responseStats.successfulResponses = links.filter(link=>{
+        return link.status>=200 && link.status<=299;
+    }).length;
+    responseStats.redirectionMessages = links.filter(link=>{
+        return link.status>=300 && link.status<=399;
+    }).length;
+    responseStats.clientErrorResponses = links.filter(link=>{
+        return link.status>=400 && link.status<=499;
+    }).length;
+    responseStats.serverErrorResponses = links.filter(link=>{
+        return link.status>=500 && link.status<=599;
+    }).length;
+    return responseStats;
+}
+
+
 module.exports={
     mdLinks,
     validateLink, 
-    statsLinks    
+    statsLinks,
+    responseStatusCodesHTTP   
 }
