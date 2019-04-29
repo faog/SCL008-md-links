@@ -34,10 +34,11 @@ describe('mdLinks', () => {
     .toEqual({"linksTotal": 2, "linksUnique": 2});
   });
 
-  it('Debería retornar la estadística linksTotal:2, linksUnique:2 y linksBroken:0 para el archivo prueba.md',()=>{
+  it('Debería retornar la estadística linksTotal:2, linksUnique:2, linksBroken:0 y códigos de estado para el archivo prueba.md ',()=>{
     expect(mdLinks.statsLinks(
     [{href:'https://es.wikipedia.org/wiki/Markdown',status:200 },{href: 'https://nodejs.org/', status:200}],{validate:true}))
-    .toEqual({linksTotal: 2, linksUnique: 2, linksBroken:0 });
+    .toEqual({linksTotal: 2, linksUnique: 2, linksBroken:0, informationResponses:0, successfulResponses:2, 
+      redirectionMessages:0, clientErrorResponses:0,  serverErrorResponses:0});
   });
 
   it('Deberia retornar 3 links para los archivos en el directorio .\\carpeta_md', async()=>{
@@ -59,5 +60,15 @@ describe('mdLinks', () => {
   it('Debería retornar un error si el usuario no ingresa un directorio o archivo', async()  => {
     await expect(mdLinks.mdLinks()).rejects.toThrow("The \"path\" argument must be of type string. Received type undefined");
   });
+
+  it ('Debería retornar los codigos de estado para los links ingresados',()=>{
+    expect(mdLinks.responseStatusCodesHTTP(
+      {linksTotal: 3, linksUnique: 3, linksBroken: 2},
+      [{ href: 'https://essssss.wikipedia.org/wiki/Markdown', status: 404},
+      {href: 'https://nodejs.org/next', status: 303},
+      {href: 'https://nodejs.org/', status: 501}]
+    )).toEqual({linksTotal: 3, linksUnique: 3, linksBroken: 2, informationResponses:0, successfulResponses:0, 
+      redirectionMessages:1, clientErrorResponses:1,  serverErrorResponses:1})
+  })
 });
 
