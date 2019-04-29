@@ -1,10 +1,11 @@
 {
   "name": "faog-md-links",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Markdown Links project",
   "scripts": {
     "test": "jest --coverage"
   },
+  "repository": "https://github.com/faog/SCL008-md-links",  
   "dependencies": {
     "chalk": "^2.4.2",
     "fetch": "^1.1.0",

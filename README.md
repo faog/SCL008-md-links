@@ -1,45 +1,62 @@
-# Markdown Links
+# faog-md-links
 
-## Preámbulo
-
-[Markdown](https://es.wikipedia.org/wiki/Markdown) es un lenguaje de marcado
-ligero muy popular entre developers. Es usado en muchísimas plataformas que
-manejan texto plano (GitHub, foros, blogs, ...), y es muy común
-encontrar varios archivos en ese formato en cualquier tipo de repositorio
-(empezando por el tradicional `README.md`).
-
-Estos archivos `Markdown` normalmente contienen _links_ (vínculos/ligas) que
-muchas veces están rotos o ya no son válidos y eso perjudica mucho el valor de
-la información que se quiere compartir.
-
-Dentro de una comunidad de código abierto, nos han propuesto crear una
-herramienta usando [Node.js](https://nodejs.org/), que lea y analice archivos
-en formato `Markdown`, para verificar los links que contengan y reportar
-algunas estadísticas.
-
-![md-links](https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg)
+Extrae los links de tus directorios y/o archivos markdown (.md), valida su status y calcula estadística con estos.
 
 ## Diagrama de Flujo
 
-Podemos instalar directamente desde GitHub con el comando:
+## Instalación
 
+```
 npm install faog-md-links
+```
 
-Sí se quiere implementar globalmente. Puede instalarse via:
+## Guía de uso
+```js
+const md-links = require ( 'faog-md-links' ) ;   
+```
 
-npm install --global faog-md-links
+**CLI (Command Line Interface - Interfaz de Línea de Comando)**
 
-ó
+Puedes ejecutar esta librería de la siguiente forma:
 
-npm i --global faog-md-links
+* Leer archivos con extensión .md
 
-# Guía de uso
+`md-links <path-to-file.md>`
 
-CLI (Command Line Interface - Interfaz de Línea de Comando)
+ejemplo:
+```
+$ md-links example.md
+example.md http://algo.com/2/3/ Link a algo
+example.md https://otra-cosa.net/algun-doc.html algún doc
+```
+* Leer un directorio
+
+`md-links <path-to-file>`
+
+ejemplo:
+```
+$ md-links ./some/example.md
+./some/example.md http://algo.com/2/3/ Link a algo
+./some/example.md https://otra-cosa.net/algun-doc.html algún doc
+```
+
+En ambos casos, se obtiene como resultado:
+
+- `file`: archivo o ruta donde fue encontrado el link.
+- `href`: link encontrado.
+- `text`: descripción del link.
 
 Options
  --validate
- -stats
+ --stats
  --validate --stats
 
-# Autor
+
+## Documentación técnica
+
+
+## Autor
+
+Fabiola Orellana
+
+8° Generación de Laboratoria
