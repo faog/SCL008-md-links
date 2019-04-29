@@ -9,7 +9,13 @@ if((process.argv[3]==="--validate" && process.argv[4]==="--stats") ||
       let responseStats=mdLinks.statsLinks(links, {validate: true});
       console.log(`Total: ${responseStats.linksTotal}`);
       console.log(`Unique: ${responseStats.linksUnique}`);
-      console.log(`Broken: ${responseStats.linksBroken}`)
+      console.log(`Broken: ${responseStats.linksBroken}`);
+      console.log(`Códigos de estado de respuesta HTTP`);
+      console.log(`Respuestas informativas: ${responseStats.informationResponses}`);
+      console.log(`Respuestas satisfactorias: ${responseStats.successfulResponses}`);
+      console.log(`Redirecciones: ${responseStats.redirectionMessages}`);
+      console.log(`Errores de cliente: ${responseStats.clientErrorResponses}`);
+      console.log(`Errores de servidor: ${responseStats.serverErrorResponses}`);
     })
     .catch(console.error);
   }
