@@ -5,6 +5,15 @@
   "scripts": {
     "test": "jest --coverage"
   },
+  "keywords": [
+    "Markdown",
+    "library",
+    "node",
+    "file",
+    "folder",
+    "validation",
+    "statistics"
+    ],
   "repository": "https://github.com/faog/SCL008-md-links",  
   "dependencies": {
     "chalk": "^2.4.2",
