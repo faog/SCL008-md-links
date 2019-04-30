@@ -30,6 +30,7 @@ example.md https://otra-cosa.net/algun-doc.html algún doc
 ```
 
 ejemplo:
+
 ![file](img/file.JPG)
 
 * Leer un directorio
@@ -89,11 +90,10 @@ Unique: 2
 Broken: 1
 HTTP Response Status Codes
 - Information responses: 0
-- Successful responses: 3
+- Successful responses: 1
 - Redirection messages: 0
 - Client error responses: 0
 - Server error responses: 0
-
 ```
 ejemplo:
 
