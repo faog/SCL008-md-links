@@ -15,7 +15,7 @@ npm install faog-md-links
 const md-links = require ( 'faog-md-links' ) ;   
 ```
 
-**CLI (Command Line Interface - Interfaz de Línea de Comando)**
+**CLI (Command Line Interface)**
 
 Puedes ejecutar esta librería de la siguiente forma:
 
@@ -189,7 +189,8 @@ links:
 {
 	linksTotal:<Total de links en los archivos>,
 	linksUnique:<Total de links unicos en los archivos>,
-	(opcional) linksBroken:<Total de links rotos, con status 0 (fallo de conexión), o mayores o iguales a 400>
+	(opcional) linksBroken:<Total de links rotos, con status 0 (fallo de conexión), 
+        o mayores o iguales a 400>
 }
 ```
 ```js
@@ -202,7 +203,6 @@ Retorna un arreglo de los archivos .md presentes en un directorio. Esta función
 6.- (Object) responseStatusCodesHTTP(responseStats, links)
 ```
 Retorna una clasificación de los códigos de error http. Esta función es interna y es usada por CLI para mostrar los códigos específicos.
-
 
 ## Autor
 
