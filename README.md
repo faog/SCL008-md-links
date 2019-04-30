@@ -1,6 +1,6 @@
 # faog-md-links
 
-Extrae los links de tus directorios y/o archivos markdown (.md), valida su status y calcula estadística con estos.
+Extrae los links de tus directorios y/o archivos markdown (.md), valida su status y obten algunos datos estadísticos.
 
 ## Diagrama de Flujo
 
@@ -92,7 +92,7 @@ HTTP Response Status Codes
 - Information responses: 0
 - Successful responses: 1
 - Redirection messages: 0
-- Client error responses: 0
+- Client error responses: 1
 - Server error responses: 0
 ```
 ejemplo:
