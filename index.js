@@ -50,5 +50,9 @@ else if(process.argv[3]==="--validate"){
     .catch(console.error);
 }
 
+if(requiere.main===module){	
+  mdLinks(process.argv[2], {validate:true}
+    .then(console.log));
+};
 
 
