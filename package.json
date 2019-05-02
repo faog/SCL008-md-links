@@ -2,7 +2,6 @@
   "name": "faog-md-links",
   "version": "1.0.4",
   "description": "Markdown Links project",
-  "main": "index.js",
   "scripts": {
     "test": "jest --coverage"
   },
