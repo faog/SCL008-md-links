@@ -177,6 +177,10 @@ const responseStatusCodesHTTP =(responseStats, links) =>{
     return responseStats;
 }
 
+if(require.main===module){	
+    mdLinks(process.argv[2], {validate:true}
+        .then(console.log));
+};
 
 module.exports={
     mdLinks,
